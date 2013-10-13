@@ -17,10 +17,14 @@ public class BenchmarkOffsettedSeries2 extends BenchmarkBase
     }
 
     public DataGenerator[] getDataGenerators() {
-        return new DataGenerator[] {
+        RandomGenerator[] r = {
             new RandomGenerator(0, 8 * 1024, 1280, 1 << 20, 1 << 10),
-            new DeltaFilter(
-                    new RandomGenerator(0, 8 * 1024, 1280, 1 << 20, 1 << 10)),
+        };
+        return new DataGenerator[] {
+            r[0],
+            new DeltaFilter(r[0]),
+            new SortFilter(r[0]),
+            new SortFilter(new DeltaFilter(r[0])),
         };
     }
 
@@ -93,6 +97,26 @@ public class BenchmarkOffsettedSeries2 extends BenchmarkBase
                     d[j] = s[j] - prev;
                     prev = s[j];
                 }
+            }
+            return dst;
+        }
+    }
+
+    public static class SortFilter extends DataFilter
+    {
+        public SortFilter(DataGenerator generator) {
+            super(generator);
+        }
+
+        public String getName() {
+            return String.format("Sort(%1$s)", this.baseGenerator.getName());
+        }
+
+        public int[][] filter(int[][] src) {
+            int[][] dst = new int[src.length][];
+            for (int i = 0; i < src.length; ++i) {
+                dst[i] = Arrays.copyOf(src[i], src[i].length);
+                Arrays.sort(dst[i]);
             }
             return dst;
         }

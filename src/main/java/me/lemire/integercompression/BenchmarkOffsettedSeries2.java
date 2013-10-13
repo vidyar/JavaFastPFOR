@@ -19,6 +19,8 @@ public class BenchmarkOffsettedSeries2 extends BenchmarkBase
     public DataGenerator[] getDataGenerators() {
         return new DataGenerator[] {
             new RandomGenerator(0, 8 * 1024, 1280, 1 << 20, 1 << 10),
+            new DeltaFilter(
+                    new RandomGenerator(0, 8 * 1024, 1280, 1 << 20, 1 << 10)),
         };
     }
 
@@ -53,7 +55,7 @@ public class BenchmarkOffsettedSeries2 extends BenchmarkBase
         }
 
         public String getName() {
-            return String.format("Random (mean=%1$d range=%2$d)", this.mean,
+            return String.format("Random(mean=%1$d range=%2$d)", this.mean,
                     this.range);
         }
 
@@ -68,6 +70,31 @@ public class BenchmarkOffsettedSeries2 extends BenchmarkBase
                 }
             }
             return chunks;
+        }
+    }
+
+    public static class DeltaFilter extends DataFilter
+    {
+        public DeltaFilter(DataGenerator generator) {
+            super(generator);
+        }
+
+        public String getName() {
+            return String.format("Delta(%1$s)", this.baseGenerator.getName());
+        }
+
+        public int[][] filter(int[][] src) {
+            int[][] dst = new int[src.length][];
+            for (int i = 0; i < src.length; ++i) {
+                int[] s = src[i];
+                int[] d = dst[i] = new int[s.length];
+                int prev = 0;
+                for (int j = 0; j < s.length; ++j) {
+                    d[j] = s[j] - prev;
+                    prev = s[j];
+                }
+            }
+            return dst;
         }
     }
 

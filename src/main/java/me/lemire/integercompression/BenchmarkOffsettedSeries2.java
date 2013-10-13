@@ -19,12 +19,17 @@ public class BenchmarkOffsettedSeries2 extends BenchmarkBase
     public DataGenerator[] getDataGenerators() {
         RandomGenerator[] r = {
             new RandomGenerator(0, 8 * 1024, 1280, 1 << 20, 1 << 10),
+            new RandomGenerator(0, 8 * 1024, 1280, 1 << 20, 1 <<  5),
         };
         return new DataGenerator[] {
             r[0],
             new DeltaFilter(r[0]),
             new SortFilter(r[0]),
-            new SortFilter(new DeltaFilter(r[0])),
+            new DeltaFilter(new SortFilter(r[0])),
+            r[1],
+            new DeltaFilter(r[1]),
+            new SortFilter(r[1]),
+            new DeltaFilter(new SortFilter(r[1])),
         };
     }
 

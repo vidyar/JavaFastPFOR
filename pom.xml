@@ -85,7 +85,7 @@
     <!--
     <mainClass>me.lemire.integercompression.Benchmark</mainClass>
     -->
-    <mainClass>me.lemire.integercompression.BenchmarkOffsettedSeries</mainClass>
+    <mainClass>me.lemire.integercompression.BenchmarkOffsettedSeries2</mainClass>
   </configuration>
 </plugin>
 

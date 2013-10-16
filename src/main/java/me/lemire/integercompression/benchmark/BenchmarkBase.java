@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 
 import me.lemire.integercompression.IntWrapper;
 import me.lemire.integercompression.IntegerCODEC;
-import me.lemire.integercompression.PerformanceLogger;
 
 public abstract class BenchmarkBase
 {

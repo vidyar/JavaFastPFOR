@@ -2,7 +2,7 @@
  * This code is released under the
  * Apache License Version 2.0 http://www.apache.org/licenses/.
  */
-package me.lemire.integercompression;
+package me.lemire.integercompression.benchmark;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +10,17 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Random;
 
+import me.lemire.integercompression.BinaryPacking;
+import me.lemire.integercompression.DeltaZigzagBinaryPacking;
+import me.lemire.integercompression.DeltaZigzagVariableByte;
+import me.lemire.integercompression.FastPFOR;
+import me.lemire.integercompression.IntWrapper;
+import me.lemire.integercompression.IntegerCODEC;
+import me.lemire.integercompression.IntegratedBinaryPacking;
+import me.lemire.integercompression.JustCopy;
+import me.lemire.integercompression.XorBinaryPacking;
+
+// TODO: rewrite by BenchmarkBase class.
 public class BenchmarkOffsettedSeries
 {
     public static final int DEFAULT_MEAN = 1 << 20;

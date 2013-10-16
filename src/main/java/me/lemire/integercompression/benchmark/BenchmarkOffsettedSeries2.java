@@ -4,12 +4,6 @@
  */
 package me.lemire.integercompression.benchmark;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Random;
-
 import me.lemire.integercompression.BinaryPacking;
 import me.lemire.integercompression.DeltaZigzagBinaryPacking;
 import me.lemire.integercompression.DeltaZigzagVariableByte;
@@ -52,88 +46,6 @@ public class BenchmarkOffsettedSeries2 extends BenchmarkBase
             new XorBinaryPacking(),
             new FastPFOR(),
         };
-    }
-
-    public static class RandomGenerator extends DataGenerator
-    {
-        private long seed;
-        private int count;
-        private int length;
-        private int mean;
-        private int range;
-
-        public RandomGenerator(long seed, int count, int length,
-                int mean, int range)
-        {
-            this.seed   = seed;
-            this.count  = count;
-            this.length = length;
-            this.mean   = mean;
-            this.range  = range;
-        }
-
-        public String getName() {
-            return String.format("Random(mean=%1$d range=%2$d)", this.mean,
-                    this.range);
-        }
-
-        public int[][] generate() {
-            int offset = this.mean - this.range / 2;
-            int[][] chunks = new int[this.count][];
-            Random r = new Random(this.seed);
-            for (int i = 0; i < this.count; ++i) {
-                int[] chunk = chunks[i] = new int[this.length];
-                for (int j = 0; j < this.length; ++j) {
-                    chunk[j] = r.nextInt(this.range) + offset;
-                }
-            }
-            return chunks;
-        }
-    }
-
-    public static class DeltaFilter extends DataFilter
-    {
-        public DeltaFilter(DataGenerator generator) {
-            super(generator);
-        }
-
-        public String getName() {
-            return String.format("Delta(%1$s)", this.baseGenerator.getName());
-        }
-
-        public int[][] filter(int[][] src) {
-            int[][] dst = new int[src.length][];
-            for (int i = 0; i < src.length; ++i) {
-                int[] s = src[i];
-                int[] d = dst[i] = new int[s.length];
-                int prev = 0;
-                for (int j = 0; j < s.length; ++j) {
-                    d[j] = s[j] - prev;
-                    prev = s[j];
-                }
-            }
-            return dst;
-        }
-    }
-
-    public static class SortFilter extends DataFilter
-    {
-        public SortFilter(DataGenerator generator) {
-            super(generator);
-        }
-
-        public String getName() {
-            return String.format("Sort(%1$s)", this.baseGenerator.getName());
-        }
-
-        public int[][] filter(int[][] src) {
-            int[][] dst = new int[src.length][];
-            for (int i = 0; i < src.length; ++i) {
-                dst[i] = Arrays.copyOf(src[i], src[i].length);
-                Arrays.sort(dst[i]);
-            }
-            return dst;
-        }
     }
 
     public static void main(String[] args) throws Exception {

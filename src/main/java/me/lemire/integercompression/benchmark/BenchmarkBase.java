@@ -17,47 +17,6 @@ public abstract class BenchmarkBase
     public static final int DEFAULT_WARMUP = 2;
     public static final int DEFAULT_REPEAT = 5;
 
-    public static abstract class DataGenerator {
-
-        private int[][] data;
-
-        public final int[][] getData() {
-            if (this.data == null) {
-                this.data = generate();
-            }
-            return this.data;
-        }
-
-        public final void reset() {
-            this.data = null;
-        }
-
-        public abstract String getName();
-
-        public abstract int[][] generate();
-
-        public int getRepeat() {
-            return DEFAULT_REPEAT;
-        }
-    }
-
-    public static abstract class DataFilter extends DataGenerator {
-
-        protected DataGenerator baseGenerator;
-
-        protected DataFilter(DataGenerator baseGenerator) {
-            this.baseGenerator = baseGenerator;
-        }
-
-        public final int[][] generate() {
-            int[][] data = filter(this.baseGenerator.generate());
-            this.baseGenerator.reset();
-            return data;
-        }
-
-        public abstract int[][] filter(int[][] src);
-    }
-
     public abstract DataGenerator[] getDataGenerators();
 
     public abstract IntegerCODEC[] getCODECs();

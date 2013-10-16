@@ -2,11 +2,15 @@
  * This code is released under the
  * Apache License Version 2.0 http://www.apache.org/licenses/.
  */
-package me.lemire.integercompression;
+package me.lemire.integercompression.benchmark;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import me.lemire.integercompression.IntWrapper;
+import me.lemire.integercompression.IntegerCODEC;
+import me.lemire.integercompression.PerformanceLogger;
 
 public abstract class BenchmarkBase
 {

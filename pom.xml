@@ -85,7 +85,7 @@
     <!--
     <mainClass>me.lemire.integercompression.Benchmark</mainClass>
     -->
-    <mainClass>me.lemire.integercompression.benchmark.BenchmarkArraySize</mainClass>
+    <mainClass>me.lemire.integercompression.benchmark.BenchmarkComposed</mainClass>
   </configuration>
 </plugin>
 
